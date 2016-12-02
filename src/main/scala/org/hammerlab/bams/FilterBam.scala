@@ -3,10 +3,11 @@ package org.hammerlab.bams
 import org.apache.spark.{ SparkConf, SparkContext }
 import org.bdgenomics.adam.rdd.ADAMContext._
 import org.bdgenomics.utils.cli.{ Args4j, Args4jBase }
+import org.hammerlab.commands.{ Args, SparkCommand }
 import org.hammerlab.genomics.loci.parsing.ParsedLoci
 import org.kohsuke.args4j.{ Argument, Option => Args4JOption }
 
-class Args extends Args4jBase {
+class Arguments extends Args {
   @Argument(
     index = 0,
     required = true,
@@ -42,12 +43,13 @@ class Args extends Args4jBase {
   var includeUnmappedMates: Boolean = false
 }
 
-object FilterBam {
-  def main(strArgs: Array[String]): Unit = {
-    val config = new SparkConf()
-    val sc = new SparkContext(config)
+object FilterBam extends SparkCommand[Arguments] {
 
-    val args = Args4j[Args](strArgs)
+  override def name: String = "filter-bam"
+
+  override def description: String = "Filter a BAM to given regions"
+
+  override def run(args: Arguments, sc: SparkContext): Unit = {
 
     val loci = ParsedLoci(args.lociStr)
 
