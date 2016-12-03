@@ -5,10 +5,10 @@ description := "Filter BAMs to loci-intervals using Apache Spark."
 sparkVersion := "1.6.1"
 
 libraryDependencies ++= Seq(
+  libraries.value('args4j),
+  libraries.value('kryo),
+  libraries.value('spark_commands),
   "org.hammerlab.adam" %% "adam-core" % "0.20.3",
-  "org.hammerlab" %% "spark-commands" % "1.0.0",
-  "com.esotericsoftware.kryo" % "kryo" % "2.21",
-  "args4j" % "args4j" % "2.33",
   "org.hammerlab" %% "genomic-loci" % "1.4.2"
 )
 
@@ -17,7 +17,7 @@ providedDeps ++= Seq(
   libraries.value('hadoop)
 )
 
-testDeps += "org.hammerlab" %% "spark-tests" % "1.1.3"
+testDeps += libraries.value('spark_tests)
 
 mainClass := Some("org.hammerlab.bams.FilterBam")
 
